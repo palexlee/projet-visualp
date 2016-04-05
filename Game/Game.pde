@@ -155,7 +155,6 @@ void mouseWheel(MouseEvent event) {
       plateau.setSpeed(plateau.getSpeed() + 0.2);
       cylindreC.setResolution(cylindreC.getResolution() - 1);
   }
-  println("speed = "+plateau.getSpeed());
 }
 
 void keyPressed() {
