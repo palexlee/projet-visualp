@@ -19,7 +19,7 @@ class Plateform {
     speed = 1;
     widthP = 700;
     heightP = 700;
-    depthP = 10;
+    depthP = 20;
     
     cylindre = new Cylinder(40, 80, 60);
     obstacles = new ArrayList<PVector>();                                         

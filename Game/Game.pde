@@ -1,7 +1,7 @@
 enum STATES {PLAY, CYLINDER}
 
-float reculCamera = 900;
-float hauteurCamera = 600;
+float reculCamera = 1200;
+float hauteurCamera = 000;
 
 Plateform plateau;
 Mover ball;
@@ -18,7 +18,7 @@ void setup() {
   frameRate(100);
   plateau = new Plateform();
   ball = new Mover();
-  cylindreC = new Cylinder(40, 80, 60, 50);
+  cylindreC = new Cylinder(40, 80, 60);
   
 }
 
@@ -31,7 +31,7 @@ void draw() {
       perspective();
       camera(width/2, height/2 - hauteurCamera, reculCamera, width/2, height/2, 0, 0, 1, 0);
       
-      directionalLight(50, 100, 125, 0.5, 1, 0.5);
+      directionalLight(50, 100, 125, 0.5, 1, -1);
       ambientLight(102, 102, 102);
       
        pushMatrix();
@@ -92,39 +92,8 @@ void draw() {
     ball.checkEdges();
     ball.checkCylinderCollision();
     ball.display();
-    
-    fill(102, 102, 102, 50);
-    box(plateau.getWidth(), plateau.getDepth()/2, plateau.getHeight());
+
   popMatrix();
-  
-  
-  
-  
-  
-  //sphere(50);
-  //textSize(20);
-  //text("potato", 0, -15, 0);
-  
-  //pushMatrix();
-  //fill(200, 200, 200);
-  //translate(0, -30, 0);
-  //sphere(5);
-  //fill(255, 255, 255);
-  //translate(100, 0, 0);
-  //sphere(2);
-  //translate(-100, -100, 0);
-  //sphere(2);
-  //translate(0, 100, 100);
-  //sphere(2);
-  //popMatrix();
-  
-  //strokeWeight(5);
-  //stroke(255, 0, 0);
-  //line(0, -30, 0, 0, -130, 0);
-  //stroke(0, 255, 0);
-  //line(0, -30, 0, 100, -30, 0);
-  //stroke(0, 0, 255);
-  //line(0, -30, 0, 0, -30, 100);
 
 }
 
@@ -170,31 +139,22 @@ void mouseWheel(MouseEvent event) {
 void keyPressed() {
   if (key == CODED) {
     switch (keyCode) {
-    case UP:
-      reculCamera -= 50;
-      break;
-    case DOWN:
-      reculCamera += 50;
-      break;
-    case LEFT:
-      plateau.setSpeed(plateau.getSpeed() - 0.2);
-      break;
-    case RIGHT:
-      plateau.setSpeed(plateau.getSpeed() + 0.2);
-      break;
-    case SHIFT:
-      mode = STATES.CYLINDER;
-      plateau.editionMode();
-      //switch (mode) {
-      //  case CYLINDER:
-      //    mode = STATES.PLAY;
-      //    break;
-      //  case PLAY:
-      //    mode = STATES.CYLINDER;
-      //    break;
-      //  default: break;
-      //}
-      break;
+      case UP:
+        reculCamera -= 50;
+        break;
+      case DOWN:
+        reculCamera += 50;
+        break;
+      case LEFT:
+        plateau.setSpeed(plateau.getSpeed() - 0.2);
+        break;
+      case RIGHT:
+        plateau.setSpeed(plateau.getSpeed() + 0.2);
+        break;
+      case SHIFT:
+        mode = STATES.CYLINDER;
+        plateau.editionMode();
+        break;
       default: break;
     }
   }else {
