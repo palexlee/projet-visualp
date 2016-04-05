@@ -99,7 +99,29 @@ void draw() {
 
 void mouseClicked(){
   if(mode == STATES.CYLINDER) {
-    plateau.addCylindre(mouseX - width/2, mouseY - height/2);
+    
+    float posx;
+    float posy;
+
+    // clamp the cylinder positions to the edges
+    if (mouseX < width/2 - plateau.getWidth()/2) {
+      posx = width/2 - plateau.getWidth()/2;
+    } else if (mouseX > width/2 + plateau.getWidth()/2) {
+      posx = width/2 + plateau.getWidth()/2;
+    } else {
+      posx = mouseX;
+    }
+
+    if (mouseY < height/2 - plateau.getHeight()/2) {
+      posy = height/2 - plateau.getHeight()/2;
+    } else if (mouseY >  height/2 + plateau.getHeight()/2) {
+      posy =  height/2 + plateau.getHeight()/2;
+    } else {
+      posy = mouseY;
+    }
+  
+    
+    plateau.addCylindre(posx-width/2, posy-height/2);
   }
 }
 
