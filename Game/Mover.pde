@@ -87,20 +87,20 @@ class Mover {
   }
   
   void checkEdges() {
-    if (location.x > plateau.getWidth()/2) {
+    if (location.x > plateau.getWidth()/2 - ballRadius) {
       velocity.x = -velocity.x*coefRebond;
-      location.x = plateau.getWidth()/2;
-    } else if (location.x < -plateau.getWidth()/2) {
+      location.x = plateau.getWidth()/2 - ballRadius;
+    } else if (location.x < -plateau.getWidth()/2 + ballRadius) {
       velocity.x = -velocity.x*coefRebond;
-      location.x = -plateau.getWidth()/2;
+      location.x = -plateau.getWidth()/2 + ballRadius;
     }
     
-    if (location.z > plateau.getHeight()/2) {
+    if (location.z > plateau.getHeight()/2 - ballRadius) {
       velocity.z = -velocity.z*coefRebond;
-      location.z = plateau.getHeight()/2;
-    } else if (location.z < -plateau.getHeight()/2) {
+      location.z = plateau.getHeight()/2 - ballRadius;
+    } else if (location.z < -plateau.getHeight()/2 + ballRadius) {
       velocity.z = -velocity.z*coefRebond;
-      location.z = -plateau.getHeight()/2;
+      location.z = -plateau.getHeight()/2 + ballRadius;
     }
     
   }
