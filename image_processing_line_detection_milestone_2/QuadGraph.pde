@@ -1,7 +1,8 @@
-import java.util.Collections;
+  import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class QuadGraph {
 
@@ -124,6 +125,8 @@ class QuadGraph {
       PVector c34 = getIntersection(l3, l4);
       PVector c41 = getIntersection(l4, l1);
       
+      List<PVector> corners = Arrays.asList(c12, c23, c34, c41);
+      
       //println(c12+" "+c23+" "+c34+" "+c41);
   
       if (isConvex(c12, c23, c34, c41) 
@@ -141,6 +144,7 @@ class QuadGraph {
   
         quad(c12.x, c12.y, c23.x, c23.y, c34.x, c34.y, c41.x, c41.y);
       }
+      
     }
   }
 
@@ -326,9 +330,33 @@ class QuadGraph {
       return false;
     }
   }
+}
+/*
+List<PVector> sortCorners(List<PVector> quad) {
+   PVector origin = new PVector(0,0);
+   
+   // 1 - Sort corners so that they are ordered clockwise
+    PVector a = quad.get(0);
+    PVector b = quad.get(2);
 
+    PVector center = new PVector((a.x+b.x)/2, (a.y+b.y)/2);
 
-  List<PVector> sortCorners(List<PVector> quad) {
+    Collections.sort(quad, new CWComparator(center));
+    
+    float min = PVector.dist(origin, quad.get(0));
+    int index = 0;
+    for (int i = 0; i < quad.size(); ++i) {
+      if (quad.get(i).dist(origin) < min) {
+        min = quad.get(i).dist(origin);
+        index = i;
+      }
+    }
+    
+    Collections.rotate(quad, index);
+    return quad;
+}
+*/
+List<PVector> sortCorners(List<PVector> quad) {
 
     // 1 - Sort corners so that they are ordered clockwise
     PVector a = quad.get(0);
@@ -354,20 +382,6 @@ class QuadGraph {
 
     return quad;
   }
-}
-
-class CWComparator implements Comparator<PVector> {
-
-  PVector center;
-
-  public CWComparator(PVector center) {
-    this.center = center;
-  }
-
-  @Override
-    public int compare(PVector b, PVector d) {
-    if (Math.atan2(b.y-center.y, b.x-center.x)<Math.atan2(d.y-center.y, d.x-center.x))      
-      return -1; 
-    else return 1;
-  }
-}
+  
+  
+  

@@ -9,6 +9,9 @@ QuadGraph graphT;
 HoughTransform houghT;
 SobelTransform sobelT;
 ConvolutionTransform convolutionT;
+TwoDThreeD projection;
+
+BlobDetection blob;
 
 ArrayList<PVector> selectedLines;
 
@@ -30,8 +33,10 @@ void setup() {
   sobelT = new SobelTransform();
   convolutionT = new ConvolutionTransform();
 
-  img = loadImage("board1.jpg");
+  img = loadImage("board2.jpg");
   result = createImage(img.width, img.height, ALPHA);
+  
+  projection = new TwoDThreeD(img.width, img.height);
 
   intermediate = createImage(800, 600, ALPHA);
   
@@ -42,7 +47,7 @@ void setup() {
 /////////////////////////////////////////////////////////////////////////////
 
 void draw() {
-
+  noLoop();
   background(0);
 
   chooseImage();
@@ -50,6 +55,10 @@ void draw() {
   result.loadPixels();  
   result = prepareForSobel(img, 80, 25, 95, 140);
   result.updatePixels();
+  PImage tmp = createImage(img.width, img.height, ALPHA);
+  for(int i = 0; i< img.width*img.height; ++i) {
+    tmp.pixels[i] = result.pixels[i];
+  }
 
   result.loadPixels();  
   result = convolutionT.convolute(result, gaussianKernel);
@@ -58,6 +67,7 @@ void draw() {
   result.loadPixels(); 
   result = intensityThresholding(result, 185);
   result.updatePixels();
+  
 
   result.loadPixels(); 
   result = sobelT.sobel(result);
@@ -73,8 +83,14 @@ void draw() {
   drawLines(selectedLines, img);
   image(result, 800+400, 0);
   
-  ArrayList<PVector> intersections = getIntersections(selectedLines);
+  ArrayList<PVector> intersections = new ArrayList<PVector>(sortCorners(getIntersections(selectedLines)));
   drawIntersections(intersections);
+  
+  PVector rot = projection.get3DRotations(intersections);
+  println("x : " + degrees(rot.x) + " y : " + degrees(rot.y) + " z : " + degrees(rot.z));
+  
+  //blob = new BlobDetection(intersections.get(0),intersections.get(1),intersections.get(2),intersections.get(3));
+  //image(blob.findConnectedComponents(img), 0, 0);
 
 }
 
@@ -83,6 +99,7 @@ void draw() {
 ////////////////            DRAW_UTILITIES          /////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
+  
 void drawIntersections(ArrayList<PVector> intersections) {
   
   for (PVector intersect : intersections) {
