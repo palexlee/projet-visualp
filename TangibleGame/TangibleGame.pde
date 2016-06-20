@@ -9,10 +9,9 @@ Plateform plateau;
 Mover ball;
 STATES mode = STATES.PLAY;
 Cylinder cylindreC;
-
-DataSurface data;
-ScoreObject score;
-HScrollbar scrollBar;
+Data data;
+HScrollbar hs;
+ArrayList<PVector> sh;
 
 ImageProcessing imgproc;
 
@@ -28,9 +27,9 @@ void setup() {
   ball = new Mover();
   cylindreC = new Cylinder(20, 80, 60);
   
-  score = new ScoreObject();
-  data = new DataSurface();
-  
+  sh = new ArrayList<PVector>();
+  data = new Data();
+  hs = new HScrollbar(370, height - 30, 400, 20);
   imgproc = new ImageProcessing();
   String []args = {"Image processing window"};
   PApplet.runSketch(args, imgproc);
@@ -40,7 +39,7 @@ void setup() {
 void draw() {
   background(220);
 
-  
+  data.drawData();
   switch (mode) {
    
     case PLAY:
@@ -136,7 +135,7 @@ void draw() {
   //if(mode == STATES.PLAY) {
     camera();
     noLights();
-    data.drawSurface();
+    
   //}
   
   //score.timeGoesOn();
@@ -191,6 +190,17 @@ void mouseDragged() {
    default: break;
  }
   
+}
+
+float resize(float x) {
+  return x / plateau.widthP * 180;
+}
+
+PVector remap(PVector coor) {
+  PVector pos = new PVector(0, 0);
+  pos.x = resize(coor.x + plateau.widthP/2);
+  pos.y = resize(coor.z + plateau.heightP/2);
+  return pos;
 }
 
 void mouseWheel(MouseEvent event) {

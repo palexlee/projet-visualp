@@ -90,28 +90,29 @@ class Mover {
     boolean collision = false;
     PVector lastVelocity = velocity.copy();
     
-    if (location.x > plateau.getWidth()/2 - ballRadius) {
+    if (location.x > plateau.getWidth()/2 - 2*ballRadius) {
       velocity.x = -velocity.x*coefRebond;
-      location.x = plateau.getWidth()/2 - ballRadius;
+      location.x = plateau.getWidth()/2 - 2*ballRadius;
       collision = true;
-    } else if (location.x < -plateau.getWidth()/2 + ballRadius) {
+    } else if (location.x < -plateau.getWidth()/2 + 2*ballRadius) {
       velocity.x = -velocity.x*coefRebond;
-      location.x = -plateau.getWidth()/2 + ballRadius;
+      location.x = -plateau.getWidth()/2 + 2*ballRadius;
       collision = true;
     }
     
-    if (location.z > plateau.getHeight()/2 - ballRadius) {
+    if (location.z > plateau.getHeight()/2 - 2*ballRadius) {
       velocity.z = -velocity.z*coefRebond;
-      location.z = plateau.getHeight()/2 - ballRadius;
+      location.z = plateau.getHeight()/2 - 2*ballRadius;
       collision = true;
-    } else if (location.z < -plateau.getHeight()/2 + ballRadius) {
+    } else if (location.z < -plateau.getHeight()/2 + 2*ballRadius) {
       velocity.z = -velocity.z*coefRebond;
-      location.z = -plateau.getHeight()/2 + ballRadius;
+      location.z = -plateau.getHeight()/2 + 2*ballRadius;
       collision = true;
     }
     
     if(collision) {
-       score.loseScoreCollision(lastVelocity); 
+      data.score = -lastVelocity.mag();
+      data.totalScore += data.score;
     }
     
   }
@@ -141,7 +142,8 @@ class Mover {
       for (PVector obstacle : toDel) {
          plateau.delCylindre(obstacle); 
       }
-       score.gainScoreCollision(lastVelocity); 
+       data.score = lastVelocity.mag();
+       data.totalScore += data.score;
     }
     
     
